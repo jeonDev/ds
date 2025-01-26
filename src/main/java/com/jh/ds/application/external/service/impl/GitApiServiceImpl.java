@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jh.ds.application.external.service.GitApiService;
 import com.jh.ds.application.external.properties.GitProperties;
+import com.jh.ds.application.external.service.request.GitApiReposCommitsDiffRequest;
 import com.jh.ds.application.external.service.request.GitApiReposCommitsRequest;
+import com.jh.ds.application.external.service.response.GitApiReposCommitsDiffResponse;
 import com.jh.ds.application.external.service.response.GitApiReposCommitsInfo;
 import com.jh.ds.application.external.service.response.GitApiReposCommitsResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +53,25 @@ public class GitApiServiceImpl implements GitApiService {
             return GitApiReposCommitsResponse.builder()
                     .gitApiReposCommitsInfos(list)
                     .build();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public GitApiReposCommitsDiffResponse getReposCommitsDiffHistory(GitApiReposCommitsDiffRequest request) {
+        String path = gitProperties.getApiUriReposCommitsDiff(request.owner(), request.repo(), request.sha());
+        log.info(path);
+        ResponseEntity<String> response = restClient.get()
+                .uri(path)
+                .retrieve()
+                .toEntity(String.class);
+        if (!HttpStatus.OK.equals(response.getStatusCode())) {
+            throw new RuntimeException("");
+        }
+
+        try {
+            return objectMapper.readValue(response.getBody(), GitApiReposCommitsDiffResponse.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
