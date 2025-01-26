@@ -8,4 +8,8 @@ import java.util.List;
 public record GitApiReposCommitsResponse(
         List<GitApiReposCommitsInfo> gitApiReposCommitsInfos
 ) {
+
+    public String toResponse() {
+        return this.toString();
+    }
 }

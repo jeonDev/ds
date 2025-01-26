@@ -7,6 +7,9 @@ public record GitApiReposCommitsDiffResponse(
         Commit commit,
         List<Files> files
 ) {
+    public String toResponse() {
+        return this.toString();
+    }
 
     public record Commit(
             String message
