@@ -1,0 +1,5 @@
+base-url: https://api.github.com
+#/repos/{owner}/{repo}/commits
+repos-commits-uri: /repos/%s/%s/commits
+#/repos/{owner}/{repo}/commits/{sha}
+repos-commits-diff-uri: /repos/%s/%s/commits/%s
