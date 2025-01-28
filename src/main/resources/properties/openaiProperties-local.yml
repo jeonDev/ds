@@ -1,0 +1,2 @@
+secret-key: ${openai.key}
+completions-url: https://api.openai.com/v1/completions
