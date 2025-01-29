@@ -15,10 +15,14 @@ public class AiEndpoint {
 
     @GetMapping("/api/v1/ai")
     public String ai() {
+        OpenAiSendRequest.Messages message = OpenAiSendRequest.Messages.builder()
+                .role("user")
+                .content("Hello")
+                .build();
         OpenAiSendRequest request = OpenAiSendRequest.builder()
                 .model("gpt-3.5-turbo")
-                .prompt("안녕")
-                .maxTokens("200")
+                .messages(new OpenAiSendRequest.Messages[]{message})
+                .maxTokens("256")
                 .build();
         return aiService.send(request).toString();
     }

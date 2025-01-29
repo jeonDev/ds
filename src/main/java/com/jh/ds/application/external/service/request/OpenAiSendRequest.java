@@ -7,9 +7,16 @@ import lombok.Builder;
 public record OpenAiSendRequest(
         @JsonProperty("model")
         String model,
-        @JsonProperty("prompt")
-        String prompt,
+        @JsonProperty("messages")
+        Messages[] messages,
         @JsonProperty("max_tokens")
         String maxTokens
 ) {
+        @Builder
+        public record Messages(
+                @JsonProperty("role")
+                String role,
+                @JsonProperty("content")
+                String content
+        ) {}
 }
